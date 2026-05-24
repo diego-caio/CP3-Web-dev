@@ -8,6 +8,7 @@
 </head>
 <body>
 
+  <!-- NAVBAR -->
   <nav>
     <a href="../index.html" class="nav-logo">VOLT<span>MOTO</span></a>
     <ul class="nav-links">
@@ -17,22 +18,27 @@
     </ul>
   </nav>
 
+  <!-- PAGE HEADER -->
   <div class="page-header">
     <h1>MEU <span>CARRINHO</span></h1>
     <p>RESUMO FINANCEIRO DA SUA COMPRA</p>
   </div>
 
+  <!-- CARRINHO -->
   <section>
     <div class="container">
       <div class="carrinho-layout">
 
+        <!-- LISTA DE ITENS -->
         <div>
           <div class="section-header" style="text-align:left; margin-bottom:1.5rem">
             <h2 style="font-size:0.9rem; letter-spacing:4px">ITENS DO <span>PEDIDO</span></h2>
           </div>
+          <!-- Itens gerados pelo JavaScript via DOM -->
           <div id="carrinho-lista" class="carrinho-lista"></div>
         </div>
 
+        <!-- RESUMO FINANCEIRO -->
         <div class="resumo pulse">
           <h3>⚡ RESUMO DO PEDIDO</h3>
 
@@ -40,15 +46,18 @@
             <span>Quantidade de itens</span>
             <span id="qtd-itens">0</span>
           </div>
+
           <div class="resumo-linha">
             <span>Subtotal</span>
             <span id="subtotal-valor">R$ 0,00</span>
           </div>
+
           <div class="resumo-linha">
             <span>Frete</span>
             <span style="color: var(--verde)">GRÁTIS</span>
           </div>
 
+          <!-- Info de desconto (aparece quando aplicado) -->
           <div class="desconto-info" id="desconto-info"></div>
 
           <div class="resumo-linha total">
@@ -56,7 +65,9 @@
             <span id="total-valor">R$ 0,00</span>
           </div>
 
+          <!-- BOTÕES -->
           <div class="resumo-acoes">
+            <!-- BÔNUS: Botão de 10% de desconto usando Reduce -->
             <button
               id="btn-desconto"
               class="btn btn-perigo"
@@ -74,7 +85,7 @@
               ✅ FINALIZAR COMPRA
             </button>
 
-            
+            <a
               href="../index.html"
               class="btn"
               style="width:100%; justify-content:center"
@@ -88,6 +99,7 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <span class="logo">VOLTMOTO</span>
     <span>© 2025 VoltMoto. Todos os direitos reservados.</span>
@@ -95,4 +107,4 @@
 
   <script src="../src/js/script.js"></script>
 </body>
-</html>
+</html> 

@@ -47,6 +47,41 @@ function formatarPreco(valor) {
   return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
+// ===== SALVAR E CARREGAR CARRINHO NO SESSIONstorage =====
+function salvarCarrinho() {
+  sessionStorage.setItem("carrinho", JSON.stringify(carrinho));
+  sessionStorage.setItem("descontoAplicado", JSON.stringify(descontoAplicado));
+}
+
+function carregarCarrinho() {
+  const salvo = sessionStorage.getItem("carrinho");
+  const desconto = sessionStorage.getItem("descontoAplicado");
+  if (salvo) carrinho = JSON.parse(salvo);
+  if (desconto) descontoAplicado = JSON.parse(desconto);
+}
+
+// ===== ESTADO DO CARRINHO =====
+let carrinho = [];
+let descontoAplicado = false;
+
+// ===== ADICIONAR AO CARRINHO =====
+function adicionarAoCarrinho(id) {
+  carregarCarrinho();
+  const produto = produtos.find((p) => p.id === id);
+  if (!produto) return;
+
+  const itemExistente = carrinho.find((i) => i.id === id);
+  if (itemExistente) {
+    itemExistente.qtd += 1;
+  } else {
+    carrinho.push({ id: produto.id, nome: produto.nome, preco: produto.preco, emoji: produto.emoji, qtd: 1 });
+  }
+
+  descontoAplicado = false;
+  salvarCarrinho();
+  mostrarToast("ADICIONADO AO CARRINHO!");
+}
+
 // ===== RENDERIZAR PRODUTOS NA INDEX =====
 function renderizarProdutos() {
   const container = document.getElementById("produtos-container");
@@ -70,15 +105,12 @@ function renderizarProdutos() {
       </div>
       <div class="card-footer">
         <span class="preco">${formatarPreco(produto.preco)}</span>
-        <a href="pages/loja.html" class="btn btn-solid btn-sm">
-          <span>COMPRAR</span>
-        </a>
+        <button class="btn btn-solid btn-sm" onclick="adicionarAoCarrinho(${produto.id})">COMPRAR</button>
       </div>
     `;
 
     container.appendChild(card);
 
-    // Animação com delay
     requestAnimationFrame(() => {
       setTimeout(() => {
         card.style.opacity = "1";
@@ -88,15 +120,6 @@ function renderizarProdutos() {
   });
 }
 
-// ===== ESTADO DO CARRINHO =====
-let carrinho = [
-  { id: 1, nome: "VoltX Pro 7000", preco: 18990, emoji: "⚡", qtd: 1 },
-  { id: 3, nome: "Thunder Elite X", preco: 32500, emoji: "🔋", qtd: 1 },
-  { id: 4, nome: "NeoUrban 500", preco: 6990, emoji: "🛵", qtd: 2 },
-];
-
-let descontoAplicado = false;
-
 // ===== CALCULAR TOTAL COM REDUCE =====
 function calcularTotal() {
   return carrinho.reduce((acumulador, item) => {
@@ -104,7 +127,7 @@ function calcularTotal() {
   }, 0);
 }
 
-// ===== CALCULAR SUBTOTAL (QTD) COM REDUCE =====
+// ===== CALCULAR QUANTIDADE COM REDUCE =====
 function calcularQuantidadeTotal() {
   return carrinho.reduce((acc, item) => acc + item.qtd, 0);
 }
@@ -182,6 +205,7 @@ function alterarQtd(id, delta) {
     return;
   }
   descontoAplicado = false;
+  salvarCarrinho();
   renderizarCarrinho();
   mostrarToast("CARRINHO ATUALIZADO");
 }
@@ -190,19 +214,18 @@ function alterarQtd(id, delta) {
 function removerItem(id) {
   carrinho = carrinho.filter((i) => i.id !== id);
   descontoAplicado = false;
+  salvarCarrinho();
   renderizarCarrinho();
   mostrarToast("ITEM REMOVIDO");
 }
 
-// ===== APLICAR DESCONTO DE 10% COM REDUCE =====
+// ===== APLICAR DESCONTO 10% COM REDUCE =====
 function aplicarDesconto() {
   if (carrinho.length === 0) return;
-
-  // Usando Reduce para validar que há itens e calcular o total com desconto
   const totalOriginal = calcularTotal();
   if (totalOriginal === 0) return;
-
   descontoAplicado = true;
+  salvarCarrinho();
   renderizarCarrinho();
   mostrarToast("DESCONTO DE 10% APLICADO!");
 }
@@ -221,6 +244,7 @@ function finalizarCompra() {
   );
   carrinho = [];
   descontoAplicado = false;
+  salvarCarrinho();
   renderizarCarrinho();
   mostrarToast("COMPRA FINALIZADA!");
 }
@@ -241,6 +265,7 @@ function mostrarToast(msg) {
 
 // ===== INIT =====
 document.addEventListener("DOMContentLoaded", () => {
+  carregarCarrinho();
   renderizarProdutos();
   renderizarCarrinho();
 });
