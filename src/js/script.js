@@ -78,6 +78,7 @@ function renderizarProdutos() {
 
     container.appendChild(card);
 
+    // Animação com delay
     requestAnimationFrame(() => {
       setTimeout(() => {
         card.style.opacity = "1";
@@ -103,7 +104,7 @@ function calcularTotal() {
   }, 0);
 }
 
-// ===== CALCULAR QUANTIDADE COM REDUCE =====
+// ===== CALCULAR SUBTOTAL (QTD) COM REDUCE =====
 function calcularQuantidadeTotal() {
   return carrinho.reduce((acc, item) => acc + item.qtd, 0);
 }
@@ -193,11 +194,14 @@ function removerItem(id) {
   mostrarToast("ITEM REMOVIDO");
 }
 
-// ===== APLICAR DESCONTO 10% COM REDUCE =====
+// ===== APLICAR DESCONTO DE 10% COM REDUCE =====
 function aplicarDesconto() {
   if (carrinho.length === 0) return;
+
+  // Usando Reduce para validar que há itens e calcular o total com desconto
   const totalOriginal = calcularTotal();
   if (totalOriginal === 0) return;
+
   descontoAplicado = true;
   renderizarCarrinho();
   mostrarToast("DESCONTO DE 10% APLICADO!");
