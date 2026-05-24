@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+:root {
+  --verde: #00ff88;
+  --verde-escuro: #00c96a;
+  --preto: #050a05;
+  --cinza-escuro: #0d1a0d;
+  --cinza-medio: #1a2e1a;
+  --cinza-claro: #2a4a2a;
+  --branco: #e8ffe8;
+  --branco-suave: #b0d0b0;
+  --laranja: #ff6b00;
+  --vermelho: #ff2244;
+  --sombra-verde: 0 0 20px rgba(0,255,136,0.3);
+  --sombra-forte: 0 0 40px rgba(0,255,136,0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--preto);
+  color: var(--branco);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--preto); }
+::-webkit-scrollbar-thumb { background: var(--verde); border-radius: 3px; }
