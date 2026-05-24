@@ -7,6 +7,7 @@ const produtos = [
     preco: 18990,
     emoji: "⚡",
     badge: "MAIS VENDIDO",
+    imagem: "src/assets/img/kundan-bana-0EsSjaKfZ28-unsplash.jpg",
   },
   {
     id: 2,
@@ -15,6 +16,7 @@ const produtos = [
     preco: 9490,
     emoji: "🏍️",
     badge: "ECONÔMICA",
+    imagem: "src/assets/img/harley-davidson-YsMg1pJqqKk-unsplash.jpg",
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ const produtos = [
     preco: 32500,
     emoji: "🔋",
     badge: "PREMIUM",
+    imagem: "src/assets/img/stefan-lehner-DS2JrhXpEVY-unsplash.jpg",
   },
   {
     id: 4,
@@ -31,6 +34,7 @@ const produtos = [
     preco: 6990,
     emoji: "🛵",
     badge: "URBAN",
+    imagem: "src/assets/img/harley-davidson-YsMg1pJqqKk-unsplash.jpg",
   },
   {
     id: 5,
@@ -39,6 +43,7 @@ const produtos = [
     preco: 27800,
     emoji: "💨",
     badge: "OFF-ROAD",
+    imagem: "src/assets/img/jan-kopriva-c2cW2tSSvRc-unsplash.jpg",
   },
 ];
 
@@ -98,7 +103,14 @@ function renderizarProdutos() {
 
     card.innerHTML = `
       <span class="card-badge">${produto.badge}</span>
-      <div class="card-placeholder">${produto.emoji}</div>
+      <div class="card-img-wrapper" id="img-wrapper-${produto.id}">
+        <img
+          src="${produto.imagem}"
+          alt="${produto.nome}"
+          class="card-img"
+          onerror="document.getElementById('img-wrapper-${produto.id}').innerHTML='<div class=&quot;card-placeholder&quot;>${produto.emoji}</div>'"
+        />
+      </div>
       <div class="card-body">
         <h3>${produto.nome}</h3>
         <p>${produto.descricao}</p>
