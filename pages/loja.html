@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoltMoto — Carrinho</title>
+  <link rel="stylesheet" href="../src/css/style.css" />
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">VOLT<span>MOTO</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Início</a></li>
+      <li><a href="loja.html" class="ativo">Carrinho</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>MEU <span>CARRINHO</span></h1>
+    <p>RESUMO FINANCEIRO DA SUA COMPRA</p>
+  </div>
+
+  <section>
+    <div class="container">
+      <div class="carrinho-layout">
+
+        <div>
+          <div class="section-header" style="text-align:left; margin-bottom:1.5rem">
+            <h2 style="font-size:0.9rem; letter-spacing:4px">ITENS DO <span>PEDIDO</span></h2>
+          </div>
+          <div id="carrinho-lista" class="carrinho-lista"></div>
+        </div>
+
+        <div class="resumo pulse">
+          <h3>⚡ RESUMO DO PEDIDO</h3>
+
+          <div class="resumo-linha">
+            <span>Quantidade de itens</span>
+            <span id="qtd-itens">0</span>
+          </div>
+          <div class="resumo-linha">
+            <span>Subtotal</span>
+            <span id="subtotal-valor">R$ 0,00</span>
+          </div>
+          <div class="resumo-linha">
+            <span>Frete</span>
+            <span style="color: var(--verde)">GRÁTIS</span>
+          </div>
+
+          <div class="desconto-info" id="desconto-info"></div>
+
+          <div class="resumo-linha total">
+            <span>TOTAL</span>
+            <span id="total-valor">R$ 0,00</span>
+          </div>
+
+          <div class="resumo-acoes">
+            <button
+              id="btn-desconto"
+              class="btn btn-perigo"
+              onclick="aplicarDesconto()"
+              style="width:100%; justify-content:center"
+            >
+              🏷️ APLICAR 10% DE DESCONTO
+            </button>
+
+            <button
+              class="btn btn-solid"
+              onclick="finalizarCompra()"
+              style="width:100%; justify-content:center"
+            >
+              ✅ FINALIZAR COMPRA
+            </button>
+
+            
+              href="../index.html"
+              class="btn"
+              style="width:100%; justify-content:center"
+            >
+              ← CONTINUAR COMPRANDO
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="logo">VOLTMOTO</span>
+    <span>© 2025 VoltMoto. Todos os direitos reservados.</span>
+  </footer>
+
+  <script src="../src/js/script.js"></script>
+</body>
+</html>
