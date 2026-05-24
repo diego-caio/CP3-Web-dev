@@ -86,3 +86,157 @@ function renderizarProdutos() {
     });
   });
 }
+
+// ===== ESTADO DO CARRINHO =====
+let carrinho = [
+  { id: 1, nome: "VoltX Pro 7000", preco: 18990, emoji: "⚡", qtd: 1 },
+  { id: 3, nome: "Thunder Elite X", preco: 32500, emoji: "🔋", qtd: 1 },
+  { id: 4, nome: "NeoUrban 500", preco: 6990, emoji: "🛵", qtd: 2 },
+];
+
+let descontoAplicado = false;
+
+// ===== CALCULAR TOTAL COM REDUCE =====
+function calcularTotal() {
+  return carrinho.reduce((acumulador, item) => {
+    return acumulador + item.preco * item.qtd;
+  }, 0);
+}
+
+// ===== CALCULAR QUANTIDADE COM REDUCE =====
+function calcularQuantidadeTotal() {
+  return carrinho.reduce((acc, item) => acc + item.qtd, 0);
+}
+
+// ===== RENDERIZAR CARRINHO =====
+function renderizarCarrinho() {
+  const lista = document.getElementById("carrinho-lista");
+  const totalEl = document.getElementById("total-valor");
+  const subtotalEl = document.getElementById("subtotal-valor");
+  const qtdEl = document.getElementById("qtd-itens");
+  const descontoEl = document.getElementById("desconto-info");
+  const btnDesconto = document.getElementById("btn-desconto");
+
+  if (!lista) return;
+
+  if (carrinho.length === 0) {
+    lista.innerHTML = `
+      <div class="carrinho-vazio">
+        <span class="emoji">🛒</span>
+        <p>Seu carrinho está vazio.</p>
+        <a href="../index.html" class="btn" style="margin-top:1rem">VER PRODUTOS</a>
+      </div>
+    `;
+  } else {
+    lista.innerHTML = "";
+    carrinho.forEach((item) => {
+      const el = document.createElement("div");
+      el.classList.add("item-carrinho");
+      el.innerHTML = `
+        <div class="item-emoji">${item.emoji}</div>
+        <div class="item-info">
+          <h4>${item.nome}</h4>
+          <p>${formatarPreco(item.preco)} / unid.</p>
+        </div>
+        <div class="item-qtd">
+          <button class="qtd-btn" onclick="alterarQtd(${item.id}, -1)">−</button>
+          <span class="qtd-num">${item.qtd}</span>
+          <button class="qtd-btn" onclick="alterarQtd(${item.id}, 1)">+</button>
+        </div>
+        <div class="item-preco">${formatarPreco(item.preco * item.qtd)}</div>
+        <button class="item-remover" onclick="removerItem(${item.id})" title="Remover">✕</button>
+      `;
+      lista.appendChild(el);
+    });
+  }
+
+  const total = calcularTotal();
+  const qtd = calcularQuantidadeTotal();
+
+  if (subtotalEl) subtotalEl.textContent = formatarPreco(total);
+  if (qtdEl) qtdEl.textContent = qtd;
+
+  if (descontoAplicado) {
+    const totalComDesconto = total * 0.9;
+    if (totalEl) totalEl.textContent = formatarPreco(totalComDesconto);
+    if (descontoEl) {
+      descontoEl.style.display = "block";
+      descontoEl.textContent = `✔ DESCONTO DE 10% APLICADO — VOCÊ ECONOMIZOU ${formatarPreco(total * 0.1)}`;
+    }
+    if (btnDesconto) btnDesconto.disabled = true;
+  } else {
+    if (totalEl) totalEl.textContent = formatarPreco(total);
+    if (descontoEl) descontoEl.style.display = "none";
+    if (btnDesconto) btnDesconto.disabled = false;
+  }
+}
+
+// ===== ALTERAR QUANTIDADE =====
+function alterarQtd(id, delta) {
+  const item = carrinho.find((i) => i.id === id);
+  if (!item) return;
+  item.qtd += delta;
+  if (item.qtd <= 0) {
+    removerItem(id);
+    return;
+  }
+  descontoAplicado = false;
+  renderizarCarrinho();
+  mostrarToast("CARRINHO ATUALIZADO");
+}
+
+// ===== REMOVER ITEM =====
+function removerItem(id) {
+  carrinho = carrinho.filter((i) => i.id !== id);
+  descontoAplicado = false;
+  renderizarCarrinho();
+  mostrarToast("ITEM REMOVIDO");
+}
+
+// ===== APLICAR DESCONTO 10% COM REDUCE =====
+function aplicarDesconto() {
+  if (carrinho.length === 0) return;
+  const totalOriginal = calcularTotal();
+  if (totalOriginal === 0) return;
+  descontoAplicado = true;
+  renderizarCarrinho();
+  mostrarToast("DESCONTO DE 10% APLICADO!");
+}
+
+// ===== FINALIZAR COMPRA =====
+function finalizarCompra() {
+  if (carrinho.length === 0) {
+    mostrarToast("CARRINHO VAZIO!");
+    return;
+  }
+  alert(
+    `✅ Pedido confirmado!\n\n` +
+    `Total: ${document.getElementById("total-valor").textContent}\n` +
+    `Itens: ${calcularQuantidadeTotal()} unidade(s)\n\n` +
+    `Obrigado por escolher a VoltMoto! 🏍️⚡`
+  );
+  carrinho = [];
+  descontoAplicado = false;
+  renderizarCarrinho();
+  mostrarToast("COMPRA FINALIZADA!");
+}
+
+// ===== TOAST =====
+function mostrarToast(msg) {
+  let toast = document.getElementById("toast");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.className = "toast";
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+// ===== INIT =====
+document.addEventListener("DOMContentLoaded", () => {
+  renderizarProdutos();
+  renderizarCarrinho();
+});
