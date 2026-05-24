@@ -777,3 +777,18 @@ footer .logo {
   .nav-links { gap: 1.2rem; }
   footer { flex-direction: column; gap: 1rem; text-align: center; }
 }
+
+/* ===== AJUSTES FINAIS ===== */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
